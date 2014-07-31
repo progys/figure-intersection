@@ -3,8 +3,25 @@ Figure Intersection quiz
 #Intro 
 I wrote this program for the Java developer interview according to the requirements provided below.
 
+#Prerequisities to run program
+Maven 3 with Java 8, Internet connection to download artifacts
+
+#Running program
+To run program you can use launch.sh or launchWithFile.sh. 
+	- launch.sh - runs application with Maven
+	- launchWithFile.sh - runs application with input file "shapesInput.txt". You can take a look at this file to find out how shapes are defined.
+	- -f <filename> - to invoke with any input file
+
 # Quiz Instruction
 It is a full programming exercise whose outcome should be code that can be compiled, executed and tested with its own set of unit testing. We expect you to show your best technical skills applying the right patterns. You may provide an IDE project (Eclipse, IntelliJ) or, if preferred, a maven project to build source code.
+
+#Technologies/Libraries used
+	-Java 8 streams for paralel execution
+	-JUnit for testing (minimal amount of tests for now)
+	-ObjectDB with JPA for shape storing
+	-Maven for building and dependencies
+	-Guice for dependency injection
+	-args4j for command line argument parsing
 
 # Quiz Requirements
 Please write a console application with the following behavior:
@@ -12,8 +29,11 @@ Please write a console application with the following behavior:
 1. When the user enters the name of a shape followed by the corresponding number of numeric parameters, define that shape and keep it in memory. The numbers may be of type double. 
 
 Examples:
+
 	circle 1.7 -5.05 6.9
+
 	triangle 4.5 1 -2.5 -33 23 0.3
+
 	donut 4.5 7.8 1.5 1.8
 
 For the circle, the numbers are the x and y coordinates of the centre followed by the radius.
