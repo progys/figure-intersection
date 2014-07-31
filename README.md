@@ -25,24 +25,7 @@ To run program you can use provided scripts (on Linux) or just plain Maven from 
 - **-f <filename>** - to invoke with any input file.
 
 ##Usage of program
-Usage: FigureIntersection -f [file]
-Loads shapes from the provided file.
-
-Supported interactive commands:
-	triangle <x> <y> <x> <y> <x> <y>  - creates triangle at given points. 
-	donut <x> <y> <radius> <radius>   - creates donut with center at (x, y) with given inner (smaller radius) and outer (larger) radius.
-	circle <x> <y> <radius>           - creates circle with center at (x, y) and given radius.
-	<x> <y>                           - prints out all existing shapes that include given point (x, y). In addition prints out every shape area and total area.
-	list                              - prints all current shapes
-	clear                             - delete all shapes
-	help                              - prints this help
-	exit                              - terminates the program
-
-Interactive commands examples: 
-  triangle 4.5 1 -2.5 -33 23 0.3   - creates triangle (4.5,1) (-2.5, -33) (23, 0.3)
-  donut 1.1 7.8 2 1.8              - creates donut with center at (1.1, 7.8) inner radius 1.8 and outer radius 2
-  circle 3 5 2                     - creates circle with center at (3, 5) inner radius 1.8 and outer radius 2
-  5.1 6.2                          - prints all shapes which include given point (5.1, 6.2) with their surface area and also total area.'''
+Type **'help'** to get list of available commands and their sample usage.
 
 ##Quiz Instruction
 It is a full programming exercise whose outcome should be code that can be compiled, executed and tested with its own set of unit testing. We expect you to show your best technical skills applying the right patterns. You may provide an IDE project (Eclipse, IntelliJ) or, if preferred, a maven project to build source code.
