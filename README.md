@@ -1,7 +1,7 @@
 #Figure Intersection quiz
 
 ##About 
-I wrote this program for the Java developer job interview. Requirements there provided, I chose technologies.
+I wrote this program for the Java developer job interview. Requirements there provided, I chose technologies and implemented it.
 Added this project to keep it as reference for myself.
 
 ##Prerequisities to run program
