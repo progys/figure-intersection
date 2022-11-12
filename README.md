@@ -1,3 +1,5 @@
+
+[![Java CI with Maven](https://github.com/progys/figure-intersection/actions/workflows/maven.yml/badge.svg)](https://github.com/progys/figure-intersection/actions/workflows/maven.yml)
 # Figure Intersection quiz
 
 ## About 
