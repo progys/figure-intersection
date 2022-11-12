@@ -1,15 +1,15 @@
-#Figure Intersection quiz
+# Figure Intersection quiz
 
-##About 
+## About 
 I wrote this program for the Java developer job interview. Requirements there provided, I chose technologies and implemented it.
 Added this project to keep it as reference for myself.
 
-##Prerequisities to run program
+## Prerequisities to run program
 - Maven 3
 - Java 8
 - Internet connection to download artifacts
 
-##Technologies/Libraries used for implementation
+## Technologies/Libraries used for implementation
 - Java 8 streams for paralel execution
 - JUnit for testing (minimal amount of tests for now)
 - ObjectDB with JPA for shape storing
@@ -17,21 +17,21 @@ Added this project to keep it as reference for myself.
 - Guice for dependency injection
 - Args4j for command line argument parsing
 
-##Running program
+## Running program
 To run program you can use provided scripts (on Linux) or just plain Maven from command line:
 
 - **launch.sh** - runs application.
 - **launchWithFile.sh** - runs application with input file "shapesInput.txt". You can take a look at this file to find out how shapes are defined.
 - **-f <filename>** - to invoke with any input file.
 
-##Usage of program
+## Usage of program
 Type **'help'** to get list of available commands and their sample usage.
 
-##Quiz Instruction
+## Quiz Instruction
 It is a full programming exercise whose outcome should be code that can be compiled, executed and tested with its own set of unit testing. We expect you to show your best technical skills applying the right patterns. You may provide an IDE project (Eclipse, IntelliJ) or, if preferred, a maven project to build source code.
 
 
-##Quiz Requirements
+## Quiz Requirements
 Please write a console application with the following behavior:
 
 1. When the user enters the name of a shape followed by the corresponding number of numeric parameters, define that shape and keep it in memory. The numbers may be of type double. 
