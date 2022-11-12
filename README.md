@@ -60,7 +60,7 @@ For the donut it is the x and y of the centre followed by the two radiuses.In ad
 5. Think about implementing it in a way which would perform well even for a very large number shapes (e.g., tens of millions, but assuming it can still be held in the program memory).
 
 
-##Extra requirements for Quiz
+## Extra requirements for Quiz
 6. Allow input from a file as well as the console. It should be possible, for example, to read a file with shape definitions and then to continue with an interactive session. Please provide a sample input file for testing.
 
 7. Feel free to add additional shapes (e.g. square, rectangle, ellipsis) and operations (e.g. to delete a given shape). An advanced option could be to find all the shapes that overlap one that’s named by the user.
