@@ -17,12 +17,12 @@
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
-            <url>http://repo1.maven.org/maven2/</url>
+            <url>https://repo1.maven.org/maven2/</url>
         </repository>
         <repository>
             <id>objectdb</id>
             <name>ObjectDB Repository</name>
-            <url>http://m2.objectdb.com</url>
+            <url>https://m2.objectdb.com</url>
         </repository>
     </repositories>
 
