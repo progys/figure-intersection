@@ -2,29 +2,13 @@ package com.progys.interview.quiz.providers;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
+import com.google.inject.Singleton;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.name.Names;
 import com.progys.interview.quiz.Application;
 import com.progys.interview.quiz.FigureIntersection;
-import com.progys.interview.quiz.commands.ActionCommandFactory;
-import com.progys.interview.quiz.commands.ClearCommand;
-import com.progys.interview.quiz.commands.Command;
-import com.progys.interview.quiz.commands.CommandFactory;
-import com.progys.interview.quiz.commands.EmptyCommand;
-import com.progys.interview.quiz.commands.ExitCommand;
-import com.progys.interview.quiz.commands.GeneralCommandFactory;
-import com.progys.interview.quiz.commands.HelpCommand;
-import com.progys.interview.quiz.commands.ListCommand;
-import com.progys.interview.quiz.commands.PointCommand;
-import com.progys.interview.quiz.commands.ShapeCommand;
-import com.progys.interview.quiz.parser.CommandNames;
-import com.progys.interview.quiz.parser.CommandParser;
-import com.progys.interview.quiz.parser.ConcreteParserFactory;
-import com.progys.interview.quiz.parser.GeneralParserFactory;
-import com.progys.interview.quiz.parser.Parser;
-import com.progys.interview.quiz.parser.ParserFactory;
-import com.progys.interview.quiz.parser.PointParser;
-import com.progys.interview.quiz.parser.ShapeParser;
+import com.progys.interview.quiz.commands.*;
+import com.progys.interview.quiz.parser.*;
 import com.progys.interview.quiz.persistence.ObjectStore;
 import com.progys.interview.quiz.persistence.Store;
 import com.progys.interview.quiz.processor.ConsoleInputProcessor;
@@ -32,7 +16,6 @@ import com.progys.interview.quiz.processor.FileInputProcessor;
 import com.progys.interview.quiz.processor.InputProcessor;
 import com.progys.interview.quiz.processor.ProcessorFactory;
 
-import javax.inject.Singleton;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.io.InputStream;
@@ -90,8 +73,7 @@ public class DependencyModule extends AbstractModule {
     @Provides
     @Singleton
     public EntityManagerFactory entityManagerFactoryProvider() {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("./db/shapes.odb");
-        return emf;
+        return Persistence.createEntityManagerFactory("./db/shapes.odb");
     }
 
 }

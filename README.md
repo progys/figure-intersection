@@ -8,11 +8,11 @@ Added this project to keep it as reference for myself.
 
 ## Prerequisities to run program
 - Maven 3
-- Java 8
+- Java 22
 - Internet connection to download artifacts
 
 ## Technologies/Libraries used for implementation
-- Java 8 streams for paralel execution
+- Java streams for parallel execution
 - JUnit for testing (minimal amount of tests for now)
 - ObjectDB with JPA for shape storing
 - Maven for building and dependencies

@@ -9,7 +9,7 @@ import com.progys.interview.quiz.parser.NamedObject;
  * @author progys
  */
 public class GeneralCommandFactory implements CommandFactory {
-    private ActionCommandFactory actionCommandFactory;
+    private final ActionCommandFactory actionCommandFactory;
 
     @Inject
     GeneralCommandFactory(ActionCommandFactory actionCommandFactory) {
@@ -17,30 +17,15 @@ public class GeneralCommandFactory implements CommandFactory {
     }
 
     public Command getCommand(NamedObject parsed, boolean silentCommands) {
-        Command command;
-        switch (parsed.getName()) {
-        case exit:
-            command = actionCommandFactory.getExitCommand();
-            break;
-        case help:
-            command = actionCommandFactory.getHelpCommand();
-            break;
-        case list:
-            command = actionCommandFactory.getListCommand();
-            break;
-        case clear:
-            command = actionCommandFactory.getClearCommand();
-            break;
-        case point:
-            command = actionCommandFactory.getPointCommand((Point) parsed);
-            break;
-        case shape:
-            command = actionCommandFactory.getShapeCommand(silentCommands, (Shape) parsed);
-            break;
-        default:
-            command = actionCommandFactory.getEmptyCommand();
-        }
-        return command;
+        return switch (parsed.getName()) {
+            case exit -> actionCommandFactory.getExitCommand();
+            case help -> actionCommandFactory.getHelpCommand();
+            case list -> actionCommandFactory.getListCommand();
+            case clear -> actionCommandFactory.getClearCommand();
+            case point -> actionCommandFactory.getPointCommand((Point) parsed);
+            case shape -> actionCommandFactory.getShapeCommand(silentCommands, (Shape) parsed);
+            default -> actionCommandFactory.getEmptyCommand();
+        };
     }
 
 }

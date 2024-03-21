@@ -1,15 +1,14 @@
 package com.progys.interview.quiz.commands;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import com.google.inject.Inject;
+
 import java.io.PrintStream;
 
 /**
  * Defines an empty action.
- * 
+ *
  * @author progys
  */
-@Singleton
 public class EmptyCommand extends AbstractCommand {
 
     @Inject

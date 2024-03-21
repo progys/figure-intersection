@@ -1,10 +1,10 @@
 package com.progys.interview.quiz.parser;
 
+import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.progys.interview.quiz.exceptions.ParseException;
 import com.progys.interview.quiz.model.Point;
 
-import javax.inject.Inject;
 import java.util.Scanner;
 
 /**

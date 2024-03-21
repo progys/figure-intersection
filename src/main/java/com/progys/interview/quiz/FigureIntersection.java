@@ -1,7 +1,10 @@
 package com.progys.interview.quiz;
 
 import com.google.inject.Guice;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.Singleton;
+import com.progys.interview.quiz.model.AbstractEntity;
 import com.progys.interview.quiz.persistence.Store;
 import com.progys.interview.quiz.processor.ProcessorFactory;
 import com.progys.interview.quiz.providers.DependencyModule;
@@ -9,21 +12,19 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.io.File;
 
 /**
  * Main class for running FigureIntersection.
- * 
+ *
  * @author progys
  */
 @Singleton
 public class FigureIntersection implements Application {
     @Option(name = "-f", usage = "input from this file", metaVar = "INPUT")
-    private File inputFile = null;
+    private final File inputFile = null;
 
-    private Store persistence;
+    private final Store persistence;
     private final ProcessorFactory processorFactory;
 
     @Inject
@@ -59,6 +60,7 @@ public class FigureIntersection implements Application {
     }
 
     public static void main(String[] args) {
+        com.objectdb.Enhancer.enhance(AbstractEntity.class.getPackageName() + ".*");
         Injector injector = Guice.createInjector(new DependencyModule());
 
         Application application = injector.getInstance(Application.class);

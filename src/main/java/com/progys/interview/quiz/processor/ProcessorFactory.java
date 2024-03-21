@@ -1,9 +1,8 @@
 package com.progys.interview.quiz.processor;
 
 import com.google.inject.assistedinject.Assisted;
-import com.progys.interview.quiz.processor.InputProcessor;
+import com.google.inject.name.Named;
 
-import javax.inject.Named;
 import java.io.File;
 
 /**

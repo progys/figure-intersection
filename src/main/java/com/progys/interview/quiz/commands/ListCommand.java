@@ -1,9 +1,9 @@
 package com.progys.interview.quiz.commands;
 
+import com.google.inject.Inject;
 import com.progys.interview.quiz.model.Shape;
 import com.progys.interview.quiz.persistence.Store;
 
-import javax.inject.Inject;
 import java.io.PrintStream;
 import java.util.Collection;
 
@@ -23,12 +23,12 @@ public class ListCommand extends AbstractCommand {
 
     @Override
     public void process() {
-        output.println(String.format("List of currently existing shapes: "));
+        output.println("List of currently existing shapes: ");
         Collection<Shape> shapes = persistence.getAll();
         for (Shape shape : shapes) {
-            output.println(String.format("%s;", shape));
+            output.printf("%s;%n", shape);
         }
 
-        output.println(String.format("Total shapes count: %s", shapes.size()));
+        output.printf("Total shapes count: %s%n", shapes.size());
     }
 }

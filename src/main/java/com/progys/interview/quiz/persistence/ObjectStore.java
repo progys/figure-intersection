@@ -1,10 +1,10 @@
 package com.progys.interview.quiz.persistence;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.progys.interview.quiz.model.AbstractEntity;
 import com.progys.interview.quiz.model.Shape;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -14,7 +14,7 @@ import java.util.Collections;
 
 /**
  * Defines an object storage layer.
- * 
+ *
  * @author progys
  */
 @Singleton

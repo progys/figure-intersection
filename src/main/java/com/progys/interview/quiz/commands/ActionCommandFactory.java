@@ -1,10 +1,9 @@
 package com.progys.interview.quiz.commands;
 
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.name.Named;
 import com.progys.interview.quiz.model.Point;
 import com.progys.interview.quiz.model.Shape;
-
-import javax.inject.Named;
 
 /**
  * Creates handling action for parsed object.

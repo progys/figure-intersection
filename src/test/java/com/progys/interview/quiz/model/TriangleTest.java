@@ -1,18 +1,16 @@
 package com.progys.interview.quiz.model;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.within;
 
-/**
- * @author progys
- */
 public class TriangleTest {
-    private double delta = 0.01;
+    private final Triangle triangle = new Triangle(new Point(-1, 0), new Point(0, 1), new Point(1, 0));
 
     @Test
     public void testTriangleArea() {
-        assertEquals(1, new Triangle(new Point(-1, 0), new Point(0, 1), new Point(1, 0)).getArea(),
-                delta);
+        assertThat(triangle.getArea())
+                .isCloseTo(1, within(0.01));
     }
 }

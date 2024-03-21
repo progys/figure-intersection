@@ -1,13 +1,14 @@
 package com.progys.interview.quiz.parser;
 
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.name.Named;
 import com.progys.interview.quiz.model.Point;
 
-import javax.inject.Named;
 import java.util.Scanner;
 
 /**
  * Parser factory.
+ *
  * @author progys
  */
 public interface ConcreteParserFactory {

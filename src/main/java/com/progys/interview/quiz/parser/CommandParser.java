@@ -1,10 +1,9 @@
 package com.progys.interview.quiz.parser;
 
 import com.google.common.base.Strings;
+import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.progys.interview.quiz.model.NamedObjectCommand;
-
-import javax.inject.Inject;
 
 /**
  * Defines commands parser.

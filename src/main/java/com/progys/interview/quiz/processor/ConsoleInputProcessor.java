@@ -1,11 +1,11 @@
 package com.progys.interview.quiz.processor;
 
+import com.google.inject.Inject;
 import com.progys.interview.quiz.commands.CommandFactory;
 import com.progys.interview.quiz.parser.NamedObject;
 import com.progys.interview.quiz.parser.Parser;
 import com.progys.interview.quiz.parser.ParserFactory;
 
-import javax.inject.Inject;
 import java.io.InputStream;
 import java.util.Scanner;
 
@@ -15,9 +15,9 @@ import java.util.Scanner;
  * @author progys
  */
 public class ConsoleInputProcessor implements InputProcessor {
-    private InputStream console;
-    private CommandFactory commandFactory;
-    private ParserFactory parserFactory;
+    private final InputStream console;
+    private final CommandFactory commandFactory;
+    private final ParserFactory parserFactory;
 
     @Inject
     ConsoleInputProcessor(CommandFactory commandFactory, InputStream console,

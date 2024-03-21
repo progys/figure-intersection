@@ -1,25 +1,21 @@
 package com.progys.interview.quiz.model;
 
-import org.junit.Test;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-
-/**
- * Tests for circle.
- * 
- * @author progys
- */
 public class CircleTest {
-    private double delta = 0.01;
-    private Point center = new Point(1, 1);
+    private final Circle circleWithRadiusOne = new Circle(new Point(1, 1), 1);
+    private final Circle circleWithRadiusTwo = new Circle(new Point(1, 1), 2);
 
     @Test
-    public void testCircleAreaWithRadiusOne() {
-        assertEquals(Math.PI, new Circle(center, 1).getArea(), delta);
+    public void calculatesAreaWithRadiusOne() {
+        Assertions.assertThat(circleWithRadiusOne.getArea())
+                .isCloseTo(Math.PI, Assertions.within(0.01));
     }
 
     @Test
-    public void testCircleAreaWithRadiusTwo() {
-        assertEquals(Math.PI * 4, new Circle(center, 2).getArea(), delta);
+    public void calculatesAreaWithRadiusTwo() {
+        Assertions.assertThat(circleWithRadiusTwo.getArea())
+                .isCloseTo(Math.PI * 4, Assertions.within(0.01));
     }
 }

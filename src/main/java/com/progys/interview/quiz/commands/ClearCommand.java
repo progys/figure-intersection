@@ -1,8 +1,8 @@
 package com.progys.interview.quiz.commands;
 
+import com.google.inject.Inject;
 import com.progys.interview.quiz.persistence.Store;
 
-import javax.inject.Inject;
 import java.io.PrintStream;
 
 /**

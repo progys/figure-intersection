@@ -1,15 +1,10 @@
 package com.progys.interview.quiz.parser;
 
+import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.progys.interview.quiz.exceptions.ParseException;
-import com.progys.interview.quiz.model.Circle;
-import com.progys.interview.quiz.model.Donut;
-import com.progys.interview.quiz.model.Point;
-import com.progys.interview.quiz.model.Shape;
-import com.progys.interview.quiz.model.ShapeNames;
-import com.progys.interview.quiz.model.Triangle;
+import com.progys.interview.quiz.model.*;
 
-import javax.inject.Inject;
 import java.util.Scanner;
 
 /**
@@ -29,19 +24,12 @@ public class ShapeParser implements Parser<NamedObject> {
 
     public Shape parse() throws ParseException {
         ShapeNames shapeName = ShapeNames.toName(scanner.next());
-        Shape shape = null;
 
-        switch (shapeName) {
-        case circle:
-            shape = parseCircle();
-            break;
-        case triangle:
-            shape = parseTriangle();
-            break;
-        case donut:
-            shape = parseDonut();
-        }
-        return shape;
+        return switch (shapeName) {
+            case circle -> parseCircle();
+            case triangle -> parseTriangle();
+            case donut -> parseDonut();
+        };
     }
 
     private Shape parseDonut() {
@@ -72,7 +60,7 @@ public class ShapeParser implements Parser<NamedObject> {
             double radius = scanner.nextDouble();
             return new Circle(center, radius);
         } catch (Exception e) {
-            throw new ParseException(ShapeNames.circle.circle, e);
+            throw new ParseException(ShapeNames.circle, e);
         }
     }
 }

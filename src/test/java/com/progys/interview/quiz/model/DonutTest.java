@@ -1,18 +1,16 @@
 package com.progys.interview.quiz.model;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.within;
 
-/**
- * @author progys
- */
 public class DonutTest {
-    private Point center = new Point(1, 1);
-    private double delta = 0.01;
+    private final Point center = new Point(1, 1);
 
     @Test
-    public void testDonutArea() {
-        assertEquals(Math.PI * 3, new Donut(1, 2, center).getArea(), delta);
+    public void calculatesDonutArea() {
+        assertThat(new Donut(1, 2, center).getArea())
+                .isCloseTo(Math.PI * 3, within(0.01));
     }
 }
