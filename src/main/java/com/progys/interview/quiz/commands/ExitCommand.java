@@ -23,6 +23,6 @@ public class ExitCommand extends AbstractCommand {
     public void process() {
         output.println("Exiting...");
         persistence.close();
-        System.exit(0);
+        Runtime.getRuntime().exit(0);
     }
 }
