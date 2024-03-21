@@ -22,7 +22,7 @@ import java.io.File;
 @Singleton
 public class FigureIntersection implements Application {
     @Option(name = "-f", usage = "input from this file", metaVar = "INPUT")
-    private final File inputFile = null;
+    private File inputFile = null;
 
     private final Store persistence;
     private final ProcessorFactory processorFactory;
