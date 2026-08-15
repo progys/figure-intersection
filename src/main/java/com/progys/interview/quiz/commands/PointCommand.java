@@ -7,8 +7,7 @@ import com.progys.interview.quiz.persistence.StoredShape;
 import com.progys.interview.quiz.persistence.Store;
 
 import java.io.PrintStream;
-import java.util.Collection;
-import java.util.function.Consumer;
+import java.util.List;
 
 /**
  * Defines action for point input.
@@ -28,18 +27,23 @@ public class PointCommand extends AbstractCommand {
 
     @Override
     public void process() {
-        Collection<StoredShape> shapes = persistence.getAll();
-        printShapes(shapes);
+        List<StoredShape> containing = persistence.getAll().parallelStream()
+                .filter(stored -> stored.shape().inShape(point))
+                .toList();
+        printShapes(containing);
     }
 
-    private void printShapes(Collection<StoredShape> shapes) {
+    private void printShapes(List<StoredShape> containing) {
         output.println(String.format("Shape list containing point %s:", point));
 
-        AreaConsumer areaConsumer = shapes.parallelStream()
-                .filter(stored -> stored.shape().inShape(point))
-                .collect(AreaConsumer::new, AreaConsumer::accept, AreaConsumer::combine);
+        double totalArea = 0;
+        for (StoredShape stored : containing) {
+            totalArea += stored.shape().getArea();
+            output.println(String.format("%s; Shape area: %.2f", stored,
+                    stored.shape().getArea()));
+        }
 
-        printTotalSurfaceArea(areaConsumer.totalArea, areaConsumer.count);
+        printTotalSurfaceArea(totalArea, containing.size());
     }
 
     private void printTotalSurfaceArea(double totalArea, long shapesCount) {
@@ -54,22 +58,5 @@ public class PointCommand extends AbstractCommand {
 
     private void noShapesContainingPoint() {
         output.println("No shapes found. Total surface area: 0");
-    }
-
-    private class AreaConsumer implements Consumer<StoredShape> {
-        private double totalArea = 0;
-        private int count = 0;
-
-        public void accept(StoredShape stored) {
-            totalArea += stored.shape().getArea();
-            count++;
-            output.println(String.format("%s; Shape area: %.2f", stored,
-                    stored.shape().getArea()));
-        }
-
-        public void combine(AreaConsumer other) {
-            totalArea += other.totalArea;
-            count += other.count;
-        }
     }
 }
