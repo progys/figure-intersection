@@ -10,7 +10,7 @@ This project was written as a solution to a Java developer job interview quiz. T
 
 - Define shapes interactively or from a file: **circle**, **triangle**, **donut**
 - Query all shapes that contain a given point, along with each shape's surface area and the total combined area
-- Point queries run in **parallel** for good performance with large numbers of shapes
+- Point queries are backed by an in-memory **spatial grid index** (bounding-box broad phase) and run in **parallel** for good performance with large numbers of shapes
 - Shapes are persisted in an **ObjectDB** database
 - Additional commands: `list`, `clear`, `help`, `exit`
 - Meaningful error messages for unexpected input; execution continues after an error
@@ -134,7 +134,7 @@ Shapes can also be loaded from a file with `-f <filename>` (see `shapesInput.txt
 
 - **Java 25** — language features and Java streams
 - **Maven** — build tool and dependency management
-- **Java Streams** — parallel processing for point queries
+- **Java Streams** — parallel point query processing over index candidates
 - **Guice** — dependency injection
 - **ObjectDB + JPA** — shape persistence
 - **Args4j** — command line argument parsing

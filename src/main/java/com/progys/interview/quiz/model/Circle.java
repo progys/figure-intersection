@@ -41,6 +41,12 @@ public final class Circle implements Shape {
     }
 
     @Override
+    public BoundingBox getBounds() {
+        return new BoundingBox(center.x - radius, center.x + radius, center.y - radius,
+                center.y + radius);
+    }
+
+    @Override
     public String toString() {
         return String.format("circle with centre at (%s, %s) and radius %s", center.x, center.y,
                 radius);

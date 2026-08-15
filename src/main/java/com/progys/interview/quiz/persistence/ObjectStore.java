@@ -2,6 +2,7 @@ package com.progys.interview.quiz.persistence;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.progys.interview.quiz.model.Point;
 import com.progys.interview.quiz.model.Shape;
 
 import javax.persistence.EntityManager;
@@ -29,12 +30,15 @@ public class ObjectStore implements Store {
     private final EntityManagerFactory entityManagerFactory;
     private final EntityManager manager;
     private final List<StoredShape> shapes;
+    private final ShapeIndex index;
 
     @Inject
     ObjectStore(EntityManagerFactory entityManagerFactory) {
         this.entityManagerFactory = entityManagerFactory;
         this.manager = entityManagerFactory.createEntityManager();
         this.shapes = new ArrayList<>(loadShapesFromDatabase());
+        this.index = new ShapeIndex();
+        shapes.forEach(index::put);
     }
 
     @Override
@@ -48,6 +52,7 @@ public class ObjectStore implements Store {
             transaction.commit();
             StoredShape stored = new StoredShape(entity.getId(), shape);
             shapes.add(stored);
+            index.put(stored);
             return stored;
         } catch (RuntimeException e) {
             if (transaction.isActive()) {
@@ -66,6 +71,7 @@ public class ObjectStore implements Store {
             manager.createQuery("delete from ShapeEntity").executeUpdate();
             transaction.commit();
             shapes.clear();
+            index.clear();
         } catch (RuntimeException e) {
             if (transaction.isActive()) {
                 transaction.rollback();
@@ -78,6 +84,11 @@ public class ObjectStore implements Store {
     @Override
     public Collection<StoredShape> getAll() {
         return Collections.unmodifiableList(shapes);
+    }
+
+    @Override
+    public Collection<StoredShape> queryContaining(Point point) {
+        return index.query(point);
     }
 
     private List<StoredShape> loadShapesFromDatabase() {

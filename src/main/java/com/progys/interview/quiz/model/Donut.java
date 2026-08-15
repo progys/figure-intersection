@@ -49,6 +49,11 @@ public final class Donut implements Shape {
     }
 
     @Override
+    public BoundingBox getBounds() {
+        return outerCircle.getBounds();
+    }
+
+    @Override
     public String toString() {
         return String.format(
                 "donut with centre at (%s, %s) with inner radius %s and outer radius %s ",
