@@ -12,6 +12,7 @@ import java.io.PrintStream;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 class PointCommandTest {
@@ -22,7 +23,8 @@ class PointCommandTest {
         StoredShape insideSmall = new StoredShape(1L, new Circle(new Point(0, 0), 1));
         StoredShape outside = new StoredShape(2L, new Circle(new Point(100, 100), 1));
         StoredShape insideBig = new StoredShape(3L, new Circle(new Point(0, 0), 2));
-        when(mockStore.getAll()).thenReturn(List.of(insideSmall, outside, insideBig));
+        when(mockStore.queryContaining(any(Point.class))).thenReturn(
+                List.of(insideSmall, outside, insideBig));
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         PointCommand pointCommand =
@@ -41,7 +43,7 @@ class PointCommandTest {
     void printsNoShapesFoundWhenNothingContainsPoint() {
         Store mockStore = Mockito.mock(Store.class);
         StoredShape outside = new StoredShape(1L, new Circle(new Point(100, 100), 1));
-        when(mockStore.getAll()).thenReturn(List.of(outside));
+        when(mockStore.queryContaining(any(Point.class))).thenReturn(List.of(outside));
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         PointCommand pointCommand =
