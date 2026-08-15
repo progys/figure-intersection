@@ -12,7 +12,11 @@ public class ParseException extends RuntimeException {
         super(message);
     }
 
+    public ParseException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
     public ParseException(ShapeNames shape, Exception e) {
-        super("Invalid arguments provided for " + shape + " : " + e.getMessage());
+        super("Invalid arguments provided for " + shape + " : " + e.getMessage(), e);
     }
 }

@@ -1,11 +1,15 @@
 package com.progys.interview.quiz.commands;
 
 import com.google.inject.Inject;
-import com.progys.interview.quiz.model.Point;
-import com.progys.interview.quiz.model.Shape;
-import com.progys.interview.quiz.parser.NamedObject;
+import com.progys.interview.quiz.parser.ParsedAction;
+import com.progys.interview.quiz.parser.ParsedObject;
+import com.progys.interview.quiz.parser.ParsedPoint;
+import com.progys.interview.quiz.parser.ParsedShape;
 
 /**
+ * Dispatches a parsed input to the matching command. The switch is exhaustive over the
+ * sealed {@link ParsedObject} hierarchy, so the compiler guarantees every input is handled.
+ * 
  * @author progys
  */
 public class GeneralCommandFactory implements CommandFactory {
@@ -16,15 +20,20 @@ public class GeneralCommandFactory implements CommandFactory {
         this.actionCommandFactory = actionCommandFactory;
     }
 
-    public Command getCommand(NamedObject parsed, boolean silentCommands) {
-        return switch (parsed.getName()) {
-            case exit -> actionCommandFactory.getExitCommand();
-            case help -> actionCommandFactory.getHelpCommand();
-            case list -> actionCommandFactory.getListCommand();
-            case clear -> actionCommandFactory.getClearCommand();
-            case point -> actionCommandFactory.getPointCommand((Point) parsed);
-            case shape -> actionCommandFactory.getShapeCommand(silentCommands, (Shape) parsed);
-            default -> actionCommandFactory.getEmptyCommand();
+    public Command getCommand(ParsedObject parsed, boolean silentCommands) {
+        return switch (parsed) {
+            case null -> actionCommandFactory.getEmptyCommand();
+            case ParsedPoint parsedPoint ->
+                actionCommandFactory.getPointCommand(parsedPoint.point());
+            case ParsedShape parsedShape ->
+                actionCommandFactory.getShapeCommand(silentCommands, parsedShape.shape());
+            case ParsedAction parsedAction -> switch (parsedAction.name()) {
+                case exit -> actionCommandFactory.getExitCommand();
+                case help -> actionCommandFactory.getHelpCommand();
+                case list -> actionCommandFactory.getListCommand();
+                case clear -> actionCommandFactory.getClearCommand();
+                case empty -> actionCommandFactory.getEmptyCommand();
+            };
         };
     }
 

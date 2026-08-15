@@ -4,7 +4,6 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
-import com.progys.interview.quiz.model.AbstractEntity;
 import com.progys.interview.quiz.persistence.Store;
 import com.progys.interview.quiz.processor.ProcessorFactory;
 import com.progys.interview.quiz.providers.DependencyModule;
@@ -60,7 +59,7 @@ public class FigureIntersection implements Application {
     }
 
     public static void main(String[] args) {
-        com.objectdb.Enhancer.enhance(AbstractEntity.class.getPackageName() + ".*");
+        com.objectdb.Enhancer.enhance("com.progys.interview.quiz.persistence.*");
         Injector injector = Guice.createInjector(new DependencyModule());
 
         Application application = injector.getInstance(Application.class);

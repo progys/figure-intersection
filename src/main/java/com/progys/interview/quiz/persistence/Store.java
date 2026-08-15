@@ -8,11 +8,11 @@ import java.util.Collection;
  * @author progys
  */
 public interface Store {
-    public Shape put(Shape shape);
+    StoredShape put(Shape shape);
 
-    public void clear();
+    void clear();
 
-    public Collection<Shape> getAll();
+    Collection<StoredShape> getAll();
 
-    public void close();
+    void close();
 }

@@ -3,6 +3,7 @@ package com.progys.interview.quiz.commands;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.progys.interview.quiz.model.Shape;
+import com.progys.interview.quiz.persistence.StoredShape;
 import com.progys.interview.quiz.persistence.Store;
 
 import java.io.PrintStream;
@@ -28,9 +29,9 @@ public class ShapeCommand extends AbstractCommand {
 
     @Override
     public void process() {
-        Shape entity = persistence.put(shape);
+        StoredShape storedShape = persistence.put(shape);
         if (!silent) {
-            output.println(entity);
+            output.println(storedShape);
         }
     }
 

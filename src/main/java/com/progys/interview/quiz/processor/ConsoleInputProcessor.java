@@ -2,7 +2,7 @@ package com.progys.interview.quiz.processor;
 
 import com.google.inject.Inject;
 import com.progys.interview.quiz.commands.CommandFactory;
-import com.progys.interview.quiz.parser.NamedObject;
+import com.progys.interview.quiz.parser.ParsedObject;
 import com.progys.interview.quiz.parser.Parser;
 import com.progys.interview.quiz.parser.ParserFactory;
 
@@ -39,7 +39,7 @@ public class ConsoleInputProcessor implements InputProcessor {
         while (scanner.hasNextLine()) {
             try {
                 String command = scanner.nextLine();
-                Parser<NamedObject> parser = parserFactory.create(command);
+                Parser<ParsedObject> parser = parserFactory.create(command);
                 commandFactory.getCommand(parser.parse(), false).execute();
             } catch (Exception e) {
                 System.err.println(e.getMessage());

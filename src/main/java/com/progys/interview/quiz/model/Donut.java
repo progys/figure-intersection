@@ -1,12 +1,6 @@
 package com.progys.interview.quiz.model;
 
 import com.google.common.base.Preconditions;
-import com.progys.interview.quiz.parser.CommandNames;
-import com.progys.interview.quiz.parser.NamedObject;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
 
 import static java.lang.StrictMath.max;
 import static java.lang.StrictMath.min;
@@ -16,21 +10,12 @@ import static java.lang.StrictMath.min;
  * 
  * @author progys
  */
-@Entity
-public class Donut implements Shape, NamedObject {
-    @OneToOne(cascade = CascadeType.ALL)
-    private Circle innerCircle;
+public final class Donut implements Shape {
+    private final Circle innerCircle;
+    private final Circle outerCircle;
+    private final Point center;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private Circle outerCircle;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    private Point center;
-
-    private double area;
-
-    public Donut() {
-    }
+    private final double area;
 
     public Donut(double innerRadius, double outerRadius, Point center) {
         Preconditions.checkArgument(innerRadius != outerRadius,
@@ -68,10 +53,5 @@ public class Donut implements Shape, NamedObject {
         return String.format(
                 "donut with centre at (%s, %s) with inner radius %s and outer radius %s ",
                 center.x, center.y, innerCircle.getRadius(), outerCircle.getRadius());
-    }
-
-    @Override
-    public CommandNames getName() {
-        return CommandNames.shape;
     }
 }
