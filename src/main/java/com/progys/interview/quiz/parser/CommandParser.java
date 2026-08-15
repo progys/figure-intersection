@@ -3,14 +3,13 @@ package com.progys.interview.quiz.parser;
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import com.progys.interview.quiz.model.NamedObjectCommand;
 
 /**
  * Defines commands parser.
  * 
  * @author progys
  */
-public class CommandParser implements Parser<NamedObject> {
+public class CommandParser implements Parser<ParsedAction> {
     private final String command;
 
     @Inject
@@ -19,10 +18,10 @@ public class CommandParser implements Parser<NamedObject> {
     }
 
     @Override
-    public NamedObject parse() {
+    public ParsedAction parse() {
         if (Strings.isNullOrEmpty(command)) {
-            return new NamedObjectCommand(CommandNames.empty);
+            return new ParsedAction(ActionNames.empty);
         }
-        return new NamedObjectCommand(CommandNames.valueOf(command));
+        return new ParsedAction(ActionNames.valueOf(command));
     }
 }

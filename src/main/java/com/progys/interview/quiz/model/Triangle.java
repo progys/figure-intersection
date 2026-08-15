@@ -1,12 +1,5 @@
 package com.progys.interview.quiz.model;
 
-import com.progys.interview.quiz.parser.CommandNames;
-import com.progys.interview.quiz.parser.NamedObject;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
-
 import static java.lang.StrictMath.abs;
 
 /**
@@ -14,21 +7,12 @@ import static java.lang.StrictMath.abs;
  * 
  * @author progys
  */
-@Entity
-public class Triangle implements Shape, NamedObject {
-    @OneToOne(cascade = CascadeType.PERSIST)
-    private Point v0;
+public final class Triangle implements Shape {
+    private final Point v0;
+    private final Point v1;
+    private final Point v2;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
-    private Point v1;
-
-    @OneToOne(cascade = CascadeType.PERSIST)
-    private Point v2;
-
-    private double area;
-
-    public Triangle() {
-    }
+    private final double area;
 
     public Triangle(Point v0, Point v1, Point v2) {
         this.v0 = v0;
@@ -67,10 +51,5 @@ public class Triangle implements Shape, NamedObject {
     public String toString() {
         return String.format("triangle at v0=(%s, %s), v1=(%s, %s), v2=(%s, %s)", v0.x, v0.y, v1.x,
                 v1.y, v2.x, v2.y);
-    }
-
-    @Override
-    public CommandNames getName() {
-        return CommandNames.shape;
     }
 }

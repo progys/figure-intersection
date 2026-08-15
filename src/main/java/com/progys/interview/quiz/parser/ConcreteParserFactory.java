@@ -3,6 +3,7 @@ package com.progys.interview.quiz.parser;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.name.Named;
 import com.progys.interview.quiz.model.Point;
+import com.progys.interview.quiz.model.Shape;
 
 import java.util.Scanner;
 
@@ -13,11 +14,11 @@ import java.util.Scanner;
  */
 public interface ConcreteParserFactory {
     @Named("point")
-    Parser getPointParser(@Assisted Scanner scanner);
+    Parser<Point> getPointParser(@Assisted Scanner scanner);
 
     @Named("shape")
-    Parser getShapeParser(@Assisted Scanner scanner, @Assisted Parser<Point> pointParser);
+    Parser<Shape> getShapeParser(@Assisted Scanner scanner, @Assisted Parser<Point> pointParser);
 
     @Named("command")
-    Parser getCommandParser(@Assisted String command);
+    Parser<ParsedAction> getCommandParser(@Assisted String command);
 }

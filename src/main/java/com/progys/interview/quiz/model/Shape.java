@@ -1,13 +1,11 @@
 package com.progys.interview.quiz.model;
 
-import com.progys.interview.quiz.parser.NamedObject;
-
 /**
  * Defines a shape.
  * 
  * @author progys
  */
-public interface Shape extends NamedObject {
+public sealed interface Shape permits Circle, Triangle, Donut {
     double getArea();
 
     boolean inShape(Point point);

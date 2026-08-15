@@ -2,7 +2,6 @@ package com.progys.interview.quiz.persistence;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.progys.interview.quiz.model.AbstractEntity;
 import com.progys.interview.quiz.model.Shape;
 
 import javax.persistence.EntityManager;
@@ -10,7 +9,9 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Defines an object storage layer.
@@ -19,6 +20,8 @@ import java.util.Collections;
  */
 @Singleton
 public class ObjectStore implements Store {
+    private static final Logger LOGGER = Logger.getLogger(ObjectStore.class.getName());
+
     private final EntityManagerFactory entityManagerFactory;
     private final EntityManager manager;
 
@@ -28,40 +31,52 @@ public class ObjectStore implements Store {
         this.manager = entityManagerFactory.createEntityManager();
     }
 
-    public Shape put(Shape shape) {
-        AbstractEntity entity = new AbstractEntity(shape);
+    @Override
+    public StoredShape put(Shape shape) {
         EntityTransaction transaction = manager.getTransaction();
+        transaction.begin();
         try {
-            transaction.begin();
+            ShapeEntity entity = new ShapeEntity(shape);
             manager.persist(entity);
             manager.flush();
             transaction.commit();
-        } catch (Exception e) {
-            System.out.println("Error while storing shape into DB" + e.getMessage());
-            transaction.rollback();
+            return new StoredShape(entity.getId(), shape);
+        } catch (RuntimeException e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            LOGGER.log(Level.SEVERE, "Error while storing shape into DB", e);
+            throw new StoreException("Error while storing shape into DB", e);
         }
-        return entity;
     }
 
+    @Override
     public void clear() {
         EntityTransaction transaction = manager.getTransaction();
+        transaction.begin();
         try {
-            transaction.begin();
-            manager.createQuery("delete from Object").executeUpdate();
+            manager.createQuery("delete from ShapeEntity").executeUpdate();
             transaction.commit();
-        } catch (Exception e) {
-            System.out.println("Error while deleting object from DB" + e.getMessage());
-            transaction.rollback();
+        } catch (RuntimeException e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            LOGGER.log(Level.SEVERE, "Error while clearing shapes from DB", e);
+            throw new StoreException("Error while clearing shapes from DB", e);
         }
     }
 
-    public Collection<Shape> getAll() {
-        TypedQuery<AbstractEntity> selectShapesQuery = manager.createQuery("SELECT e FROM "
-                + AbstractEntity.class.getCanonicalName() + " e", AbstractEntity.class);
-        Collection<? extends Shape> shapes = selectShapesQuery.getResultList();
-        return Collections.unmodifiableCollection(shapes);
+    @Override
+    public Collection<StoredShape> getAll() {
+        TypedQuery<ShapeEntity> query = manager.createQuery(
+                "SELECT e FROM " + ShapeEntity.class.getName() + " e", ShapeEntity.class);
+        List<ShapeEntity> entities = query.getResultList();
+        return entities.stream()
+                .map(entity -> new StoredShape(entity.getId(), entity.toShape()))
+                .toList();
     }
 
+    @Override
     public void close() {
         try {
             manager.close();

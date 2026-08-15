@@ -12,7 +12,7 @@ import java.util.Scanner;
  * 
  * @author progys
  */
-public class PointParser implements Parser<NamedObject> {
+public class PointParser implements Parser<Point> {
     private final Scanner scanner;
 
     @Inject
@@ -20,13 +20,14 @@ public class PointParser implements Parser<NamedObject> {
         this.scanner = scanner;
     }
 
+    @Override
     public Point parse() {
         try {
             double x = scanner.nextDouble();
             double y = scanner.nextDouble();
             return new Point(x, y);
         } catch (Exception e) {
-            throw new ParseException("Invalid arguments provided for point.");
+            throw new ParseException("Invalid arguments provided for point.", e);
         }
     }
 }

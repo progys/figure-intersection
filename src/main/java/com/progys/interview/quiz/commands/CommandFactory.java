@@ -1,10 +1,10 @@
 package com.progys.interview.quiz.commands;
 
-import com.progys.interview.quiz.parser.NamedObject;
+import com.progys.interview.quiz.parser.ParsedObject;
 
 /**
  * @author progys
  */
 public interface CommandFactory {
-    Command getCommand(NamedObject parsed, boolean silentCommands);
+    Command getCommand(ParsedObject parsed, boolean silentCommands);
 }

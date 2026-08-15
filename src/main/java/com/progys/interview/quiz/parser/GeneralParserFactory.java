@@ -1,6 +1,8 @@
 package com.progys.interview.quiz.parser;
 
 import com.google.inject.Inject;
+import com.progys.interview.quiz.model.Point;
+import com.progys.interview.quiz.model.Shape;
 
 import java.util.Scanner;
 
@@ -10,33 +12,36 @@ import java.util.Scanner;
  * @author progys
  */
 public class GeneralParserFactory implements ParserFactory {
-    private ConcreteParserFactory concreteParserFactory;
+    private final ConcreteParserFactory concreteParserFactory;
 
     @Inject
     public GeneralParserFactory(ConcreteParserFactory concreteParserFactory) {
         this.concreteParserFactory = concreteParserFactory;
     }
 
-    public Parser<NamedObject> create(String command) {
-        switch (command) {
-        case "exit":
-        case "help":
-        case "list":
-        case "":
-        case "clear":
-            return concreteParserFactory.getCommandParser(command);
-        default:
-            return createGeometryParser(command);
+    @Override
+    public Parser<ParsedObject> create(String command) {
+        if (isActionCommand(command)) {
+            return () -> concreteParserFactory.getCommandParser(command).parse();
         }
+        return () -> parseGeometry(command);
     }
 
-    private Parser<NamedObject> createGeometryParser(String command) {
+    private boolean isActionCommand(String command) {
+        return switch (command) {
+            case "exit", "help", "list", "clear", "" -> true;
+            default -> false;
+        };
+    }
+
+    private ParsedObject parseGeometry(String command) {
         Scanner scanner = new Scanner(command);
         if (scanner.hasNextDouble()) {
-            return concreteParserFactory.getPointParser(scanner);
-        } else {
-            return concreteParserFactory.getShapeParser(scanner,
-                    concreteParserFactory.getPointParser(scanner));
+            Point point = concreteParserFactory.getPointParser(scanner).parse();
+            return new ParsedPoint(point);
         }
+        Parser<Point> pointParser = concreteParserFactory.getPointParser(scanner);
+        Shape shape = concreteParserFactory.getShapeParser(scanner, pointParser).parse();
+        return new ParsedShape(shape);
     }
 }

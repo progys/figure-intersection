@@ -3,7 +3,12 @@ package com.progys.interview.quiz.parser;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.progys.interview.quiz.exceptions.ParseException;
-import com.progys.interview.quiz.model.*;
+import com.progys.interview.quiz.model.Circle;
+import com.progys.interview.quiz.model.Donut;
+import com.progys.interview.quiz.model.Point;
+import com.progys.interview.quiz.model.Shape;
+import com.progys.interview.quiz.model.ShapeNames;
+import com.progys.interview.quiz.model.Triangle;
 
 import java.util.Scanner;
 
@@ -12,7 +17,7 @@ import java.util.Scanner;
  * 
  * @author progys
  */
-public class ShapeParser implements Parser<NamedObject> {
+public class ShapeParser implements Parser<Shape> {
     private final Scanner scanner;
     private final Parser<Point> pointParser;
 
@@ -22,6 +27,7 @@ public class ShapeParser implements Parser<NamedObject> {
         this.pointParser = pointParser;
     }
 
+    @Override
     public Shape parse() throws ParseException {
         ShapeNames shapeName = ShapeNames.toName(scanner.next());
 
