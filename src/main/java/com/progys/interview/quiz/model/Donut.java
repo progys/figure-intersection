@@ -18,6 +18,10 @@ public final class Donut implements Shape {
     private final double area;
 
     public Donut(double innerRadius, double outerRadius, Point center) {
+        Preconditions.checkArgument(innerRadius > 0,
+                "Donut inner radius should be positive number");
+        Preconditions.checkArgument(outerRadius > 0,
+                "Donut outer radius should be positive number");
         Preconditions.checkArgument(innerRadius != outerRadius,
                 "Donut inner radius is equal to outer radius");
 

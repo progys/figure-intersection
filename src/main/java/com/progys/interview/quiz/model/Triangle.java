@@ -1,5 +1,7 @@
 package com.progys.interview.quiz.model;
 
+import com.google.common.base.Preconditions;
+
 import static java.lang.StrictMath.abs;
 
 /**
@@ -19,6 +21,8 @@ public final class Triangle implements Shape {
         this.v1 = v1;
         this.v2 = v2;
         this.area = (-v1.y * v2.x + v0.y * (-v1.x + v2.x) + v0.x * (v1.y - v2.y) + v1.x * v2.y) / 2;
+        Preconditions.checkArgument(area != 0,
+                "Triangle vertices are collinear, cannot create a triangle");
     }
 
     public Point getV0() {
