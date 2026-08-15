@@ -20,13 +20,13 @@ public class GeneralCommandFactory implements CommandFactory {
         this.actionCommandFactory = actionCommandFactory;
     }
 
-    public Command getCommand(ParsedObject parsed, boolean silentCommands) {
+    public Command getCommand(ParsedObject parsed, ShapeOutputMode outputMode) {
         return switch (parsed) {
             case null -> actionCommandFactory.getEmptyCommand();
             case ParsedPoint parsedPoint ->
                 actionCommandFactory.getPointCommand(parsedPoint.point());
             case ParsedShape parsedShape ->
-                actionCommandFactory.getShapeCommand(silentCommands, parsedShape.shape());
+                actionCommandFactory.getShapeCommand(outputMode, parsedShape.shape());
             case ParsedAction parsedAction -> switch (parsedAction.name()) {
                 case exit -> actionCommandFactory.getExitCommand();
                 case help -> actionCommandFactory.getHelpCommand();

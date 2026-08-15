@@ -16,28 +16,29 @@ import java.io.PrintStream;
 public class ShapeCommand extends AbstractCommand {
     private final Store persistence;
     private final Shape shape;
-    private final boolean silent;
+    private final ShapeOutputMode outputMode;
 
     @Inject
-    public ShapeCommand(Store persistence, @Assisted Shape shape, @Assisted boolean silent,
-            PrintStream output) {
+    public ShapeCommand(Store persistence, @Assisted ShapeOutputMode outputMode,
+            @Assisted Shape shape, PrintStream output) {
         super(output);
         this.persistence = persistence;
         this.shape = shape;
-        this.silent = silent;
+        this.outputMode = outputMode;
     }
 
     @Override
     public void process() {
         StoredShape storedShape = persistence.put(shape);
-        if (!silent) {
+        if (outputMode == ShapeOutputMode.VERBOSE) {
             output.println(storedShape);
         }
     }
 
     @Override
     protected void printSeparator() {
-        if (!silent)
+        if (outputMode == ShapeOutputMode.VERBOSE) {
             super.printSeparator();
+        }
     }
 }

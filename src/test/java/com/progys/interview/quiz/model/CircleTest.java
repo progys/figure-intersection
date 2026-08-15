@@ -20,4 +20,20 @@ public class CircleTest {
         assertThat(circleWithRadiusTwo.getArea())
                 .isCloseTo(Math.PI * 4, Assertions.within(0.01));
     }
+
+    @Test
+    public void containsPointInsideCircle() {
+        assertThat(circleWithRadiusOne.inShape(new Point(1, 1))).isTrue();
+        assertThat(circleWithRadiusOne.inShape(new Point(1.5, 1))).isTrue();
+    }
+
+    @Test
+    public void doesNotContainPointOutsideCircle() {
+        assertThat(circleWithRadiusOne.inShape(new Point(3, 1))).isFalse();
+    }
+
+    @Test
+    public void doesNotContainPointOnBoundary() {
+        assertThat(circleWithRadiusOne.inShape(new Point(2, 1))).isFalse();
+    }
 }
