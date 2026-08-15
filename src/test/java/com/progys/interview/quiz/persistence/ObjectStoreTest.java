@@ -75,6 +75,16 @@ class ObjectStoreTest {
     }
 
     @Test
+    void queryContainingReturnsOnlyShapesNearThePoint() {
+        StoredShape circle = store.put(new Circle(new Point(0, 0), 1));
+        store.put(new Triangle(new Point(100, 100), new Point(101, 100), new Point(100, 101)));
+
+        Collection<StoredShape> candidates = store.queryContaining(new Point(0.5, 0.5));
+
+        assertThat(candidates).containsExactly(circle);
+    }
+
+    @Test
     void loadsPersistedShapesFromDatabaseOnStartup() {
         store.put(new Triangle(new Point(0, 0), new Point(1, 0), new Point(0, 1)));
         store.close();

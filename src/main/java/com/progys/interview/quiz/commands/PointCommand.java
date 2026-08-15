@@ -27,7 +27,7 @@ public class PointCommand extends AbstractCommand {
 
     @Override
     public void process() {
-        List<StoredShape> containing = persistence.getAll().parallelStream()
+        List<StoredShape> containing = persistence.queryContaining(point).parallelStream()
                 .filter(stored -> stored.shape().inShape(point))
                 .toList();
         printShapes(containing);

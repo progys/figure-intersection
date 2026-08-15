@@ -3,6 +3,8 @@ package com.progys.interview.quiz.model;
 import com.google.common.base.Preconditions;
 
 import static java.lang.StrictMath.abs;
+import static java.lang.StrictMath.max;
+import static java.lang.StrictMath.min;
 
 /**
  * Defines a triangle.
@@ -49,6 +51,13 @@ public final class Triangle implements Shape {
         double t = d
                 * (v0.x * v1.y - v0.y * v1.x + (v0.y - v1.y) * point.x + (v1.x - v0.x) * point.y);
         return s > 0 && t > 0 && (s + t) < 1;
+    }
+
+    @Override
+    public BoundingBox getBounds() {
+        return new BoundingBox(
+                min(min(v0.x, v1.x), v2.x), max(max(v0.x, v1.x), v2.x),
+                min(min(v0.y, v1.y), v2.y), max(max(v0.y, v1.y), v2.y));
     }
 
     @Override
