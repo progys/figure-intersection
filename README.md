@@ -15,11 +15,12 @@ This project was written as a solution to a Java developer job interview quiz. T
 - Additional commands: `list`, `clear`, `help`, `exit`
 - Meaningful error messages for unexpected input; execution continues after an error
 - Continuous integration via GitHub Actions
+- Docker image based on the same Java 25 runtime
 
 ## Prerequisites
 
 - Maven 3
-- Java 22
+- Java 25
 - Internet connection (to download dependencies)
 
 ## Building and running
@@ -49,6 +50,34 @@ You can also build a runnable JAR and execute it:
 ```bash
 mvn clean package
 java -jar target/FigureIntersection-1.0-SNAPSHOT.jar -f shapesInput.txt
+```
+
+## Running with Docker
+
+The provided `Dockerfile` builds and runs the application on the **same Java version (Java 25)**. No local JDK or Maven installation is required.
+
+Build the image:
+
+```bash
+docker build -t figure-intersection .
+```
+
+Run the application interactively (the app needs an interactive terminal):
+
+```bash
+docker run -it --rm figure-intersection
+```
+
+Load shapes from a file (mount the file into the container):
+
+```bash
+docker run -it --rm -v "$PWD/shapesInput.txt:/app/shapesInput.txt:ro" figure-intersection -f shapesInput.txt
+```
+
+The shapes database is stored inside the container at `/app/db`. To keep it between runs, mount a host directory:
+
+```bash
+docker run -it --rm -v "$PWD/db:/app/db" figure-intersection
 ```
 
 ## Usage
@@ -103,7 +132,7 @@ Shapes can also be loaded from a file with `-f <filename>` (see `shapesInput.txt
 
 ## Technologies and libraries
 
-- **Java 22** — language features and Java streams
+- **Java 25** — language features and Java streams
 - **Maven** — build tool and dependency management
 - **Java Streams** — parallel processing for point queries
 - **Guice** — dependency injection

@@ -22,7 +22,7 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
-          java-version: '22'
+          java-version: '25'
           distribution: 'temurin'
           maven-version: '3.9.6'
           cache: maven
