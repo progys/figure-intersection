@@ -8,13 +8,17 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Defines an object storage layer.
+ * Object storage layer. The database is the source of truth across restarts, but a copy of all
+ * shapes is kept in memory so point queries never hit the database (the quiz requires queries to
+ * scale to tens of millions of shapes held in program memory).
  *
  * @author progys
  */
@@ -24,11 +28,13 @@ public class ObjectStore implements Store {
 
     private final EntityManagerFactory entityManagerFactory;
     private final EntityManager manager;
+    private final List<StoredShape> shapes;
 
     @Inject
     ObjectStore(EntityManagerFactory entityManagerFactory) {
         this.entityManagerFactory = entityManagerFactory;
         this.manager = entityManagerFactory.createEntityManager();
+        this.shapes = new ArrayList<>(loadShapesFromDatabase());
     }
 
     @Override
@@ -40,7 +46,9 @@ public class ObjectStore implements Store {
             manager.persist(entity);
             manager.flush();
             transaction.commit();
-            return new StoredShape(entity.getId(), shape);
+            StoredShape stored = new StoredShape(entity.getId(), shape);
+            shapes.add(stored);
+            return stored;
         } catch (RuntimeException e) {
             if (transaction.isActive()) {
                 transaction.rollback();
@@ -57,6 +65,7 @@ public class ObjectStore implements Store {
         try {
             manager.createQuery("delete from ShapeEntity").executeUpdate();
             transaction.commit();
+            shapes.clear();
         } catch (RuntimeException e) {
             if (transaction.isActive()) {
                 transaction.rollback();
@@ -68,10 +77,13 @@ public class ObjectStore implements Store {
 
     @Override
     public Collection<StoredShape> getAll() {
+        return Collections.unmodifiableList(shapes);
+    }
+
+    private List<StoredShape> loadShapesFromDatabase() {
         TypedQuery<ShapeEntity> query = manager.createQuery(
                 "SELECT e FROM " + ShapeEntity.class.getName() + " e", ShapeEntity.class);
-        List<ShapeEntity> entities = query.getResultList();
-        return entities.stream()
+        return query.getResultList().stream()
                 .map(entity -> new StoredShape(entity.getId(), entity.toShape()))
                 .toList();
     }

@@ -48,7 +48,7 @@ public final class Triangle implements Shape {
                 * (v0.y * v2.x - v0.x * v2.y + (v2.y - v0.y) * point.x + (v0.x - v2.x) * point.y);
         double t = d
                 * (v0.x * v1.y - v0.y * v1.x + (v0.y - v1.y) * point.x + (v1.x - v0.x) * point.y);
-        return s >= 0 && t >= 0 && (s + t) < 1;
+        return s > 0 && t > 0 && (s + t) < 1;
     }
 
     @Override

@@ -30,6 +30,6 @@ public interface ActionCommandFactory {
     Command getPointCommand(@Assisted Point point);
 
     @Named("shape")
-    Command getShapeCommand(@Assisted Boolean silent, @Assisted Shape shape);
+    Command getShapeCommand(@Assisted ShapeOutputMode outputMode, @Assisted Shape shape);
 
 }
