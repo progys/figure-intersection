@@ -1,77 +1,177 @@
-
 [![Java CI with Maven](https://github.com/progys/figure-intersection/actions/workflows/maven.yml/badge.svg)](https://github.com/progys/figure-intersection/actions/workflows/maven.yml)
-# Figure Intersection quiz
 
-## About 
-I wrote this program for the Java developer job interview. Requirements there provided, I chose technologies and implemented it.
-Added this project to keep it as reference for myself.
+# Figure Intersection
 
-## Prerequisities to run program
+A console application that lets you define geometric shapes, store them in a database, and query which shapes contain a given point.
+
+This project was written as a solution to a Java developer job interview quiz. The original requirements are preserved in the [Quiz Requirements](#quiz-requirements) section below. It is kept here as a personal reference implementation.
+
+## Features
+
+- Define shapes interactively or from a file: **circle**, **triangle**, **donut**
+- Query all shapes that contain a given point, along with each shape's surface area and the total combined area
+- Point queries run in **parallel** for good performance with large numbers of shapes
+- Shapes are persisted in an **ObjectDB** database
+- Additional commands: `list`, `clear`, `help`, `exit`
+- Meaningful error messages for unexpected input; execution continues after an error
+- Continuous integration via GitHub Actions
+
+## Prerequisites
+
 - Maven 3
 - Java 22
-- Internet connection to download artifacts
+- Internet connection (to download dependencies)
 
-## Technologies/Libraries used for implementation
-- Java streams for parallel execution
-- JUnit for testing (minimal amount of tests for now)
-- ObjectDB with JPA for shape storing
-- Maven for building and dependencies
-- Guice for dependency injection
-- Args4j for command line argument parsing
+## Building and running
 
-## Running program
-To run program you can use provided scripts (on Linux) or just plain Maven from command line:
+Build and run the tests:
 
-- **launch.sh** - runs application.
-- **launchWithFile.sh** - runs application with input file "shapesInput.txt". You can take a look at this file to find out how shapes are defined.
-- **-f <filename>** - to invoke with any input file.
+```bash
+mvn clean install
+```
 
-## Usage of program
-Type **'help'** to get list of available commands and their sample usage.
+Run the application interactively:
 
-## Quiz Instruction
-It is a full programming exercise whose outcome should be code that can be compiled, executed and tested with its own set of unit testing. We expect you to show your best technical skills applying the right patterns. You may provide an IDE project (Eclipse, IntelliJ) or, if preferred, a maven project to build source code.
+```bash
+mvn clean install exec:java -Dexec.mainClass="com.progys.interview.quiz.FigureIntersection"
+```
 
+Or use the provided scripts (Linux):
+
+| Command                | Description                                              |
+| ---------------------- | -------------------------------------------------------- |
+| `./launch.sh`          | Runs the interactive application.                        |
+| `./launchWithFile.sh`  | Loads shapes from `shapesInput.txt`, then starts the interactive session. |
+| `./launch.sh -f FILE`  | Loads shapes from any input file.                        |
+
+You can also build a runnable JAR and execute it:
+
+```bash
+mvn clean package
+java -jar target/FigureIntersection-1.0-SNAPSHOT.jar -f shapesInput.txt
+```
+
+## Usage
+
+Once running, type `help` to print the list of available commands with usage examples.
+
+### Shapes
+
+| Command                              | Description                                                                                   |
+| ------------------------------------ | --------------------------------------------------------------------------------------------- |
+| `circle <x> <y> <radius>`            | Circle with centre at (x, y) and the given radius.                                            |
+| `triangle <x1> <y1> <x2> <y2> <x3> <y3>` | Triangle defined by its three vertices.                                                     |
+| `donut <x> <y> <innerR> <outerR>`    | Donut with centre at (x, y), inner and outer radius (inner radius must be smaller than outer). |
+
+Every created shape is assigned a unique identifier and printed back in a standardized form, for example:
+
+```
+=> shape 1: circle with centre at (1.7, -5.05) and radius 6.9
+```
+
+### Other commands
+
+| Command   | Description                                                    |
+| --------- | -------------------------------------------------------------- |
+| `x y`     | Prints all shapes containing the point (x, y), their surface areas, and the total area. A point is inside a donut if it is inside the outer circle but not inside the inner one. |
+| `list`    | Prints all currently stored shapes.                            |
+| `clear`   | Deletes all stored shapes.                                     |
+| `help`    | Prints help with command examples.                             |
+| `exit`    | Terminates the program.                                        |
+
+### Example session
+
+```
+circle 1.7 -5.05 6.9
+=> shape 1: circle with centre at (1.7, -5.05) and radius 6.9
+
+triangle 4.5 1 -2.5 -33 23 0.3
+=> shape 2: triangle with vertices at (4.5, 1) (-2.5, -33) (23, 0.3)
+
+donut 4.5 7.8 1.5 1.8
+=> shape 3: donut with centre at (4.5, 7.8) inner radius 1.5 and outer radius 1.8
+
+5.1 6.2
+Shape list containing point (5.1, 6.2):
+shape 3: donut with centre at (4.5, 7.8) inner radius 1.5 and outer radius 1.8; Shape area: 3.11
+Found 1 shapes containing point (5.1, 6.2). Surface area combined:  3.11
+```
+
+### File input
+
+Shapes can also be loaded from a file with `-f <filename>` (see `shapesInput.txt` for an example of the format). The interactive session continues afterwards.
+
+## Technologies and libraries
+
+- **Java 22** — language features and Java streams
+- **Maven** — build tool and dependency management
+- **Java Streams** — parallel processing for point queries
+- **Guice** — dependency injection
+- **ObjectDB + JPA** — shape persistence
+- **Args4j** — command line argument parsing
+- **JUnit 5, AssertJ, Mockito** — testing
+
+## Project layout
+
+```
+src/main/java/com/progys/interview/quiz/
+├── Application.java, FigureIntersection.java   # entry point
+├── commands/                                    # command implementations
+├── exceptions/                                  # custom exceptions
+├── model/                                       # shape domain model (Circle, Triangle, Donut, Point)
+├── parser/                                      # command and input parsing
+├── persistence/                                 # ObjectDB storage
+├── processor/                                   # console and file input handling
+└── providers/                                   # Guice dependency injection module
+src/test/java/com/progys/interview/quiz/         # unit tests
+```
 
 ## Quiz Requirements
-Please write a console application with the following behavior:
 
-1. When the user enters the name of a shape followed by the corresponding number of numeric parameters, define that shape and keep it in memory. The numbers may be of type double. 
+The original quiz instructions and requirements.
 
-Input commands examples:
+### Instructions
 
-	circle 1.7 -5.05 6.9
+It is a full programming exercise whose outcome should be code that can be compiled, executed and tested with its own set of unit testing. We expect you to show your best technical skills applying the right patterns. You may provide an IDE project (Eclipse, IntelliJ) or, if preferred, a maven project to build source code.
 
-	triangle 4.5 1 -2.5 -33 23 0.3
+### Requirements
 
-	donut 4.5 7.8 1.5 1.8
+1. When the user enters the name of a shape followed by the corresponding number of numeric parameters, define that shape and keep it in memory. The numbers may be of type double.
 
-For the circle, the numbers are the x and y coordinates of the centre followed by the radius.
-For the triangle it is the x and y coordinates of the three vertices (six numbers in total).
-For the donut it is the x and y of the centre followed by the two radiuses.In addition, every time such a line is entered, the application should give it a unique identifier and print it out in a standardized form, for example:
-=> shape 1: circle with centre at (1.7, -5.05) and radius 6.9
+   Input command examples:
+
+   ```
+   circle 1.7 -5.05 6.9
+   triangle 4.5 1 -2.5 -33 23 0.3
+   donut 4.5 7.8 1.5 1.8
+   ```
+
+   For the circle, the numbers are the x and y coordinates of the centre followed by the radius. For the triangle it is the x and y coordinates of the three vertices (six numbers in total). For the donut it is the x and y of the centre followed by the two radii. In addition, every time such a line is entered, the application should give it a unique identifier and print it out in a standardized form, for example:
+
+   ```
+   => shape 1: circle with centre at (1.7, -5.05) and radius 6.9
+   ```
 
 2. When the user enters a pair of numbers, the application should print out all the shapes that include that point in the (x, y) space, i.e. it should print out shape S if the given point is inside S. (A point is inside a donut shape if it is inside the outer circle but not inside the inner one.) It should also print out the surface area of each shape found, and the total area of all the shapes returned for a given point.
 
-3. It should accept the commands “help” for printing instructions and “exit” for terminating the execution.
+3. It should accept the commands "help" for printing instructions and "exit" for terminating the execution.
 
 4. If the user enters anything unexpected (including errors like too few/many arguments, incorrect number format, etc.), it should print a meaningful error message and continue the execution.
 
-4. Unit Testing. Feel free to use any frameworks for unit testing.
+5. Unit testing. Feel free to use any frameworks for unit testing.
 
-5. Think about implementing it in a way which would perform well even for a very large number shapes (e.g., tens of millions, but assuming it can still be held in the program memory).
+6. Think about implementing it in a way which would perform well even for a very large number of shapes (e.g., tens of millions, but assuming it can still be held in the program memory).
 
+### Extra requirements
 
-## Extra requirements for Quiz
-6. Allow input from a file as well as the console. It should be possible, for example, to read a file with shape definitions and then to continue with an interactive session. Please provide a sample input file for testing.
+7. Allow input from a file as well as the console. It should be possible, for example, to read a file with shape definitions and then to continue with an interactive session. Please provide a sample input file for testing.
 
-7. Feel free to add additional shapes (e.g. square, rectangle, ellipsis) and operations (e.g. to delete a given shape). An advanced option could be to find all the shapes that overlap one that’s named by the user.
+8. Feel free to add additional shapes (e.g. square, rectangle, ellipsis) and operations (e.g. to delete a given shape). An advanced option could be to find all the shapes that overlap one that's named by the user.
 
-8. Build file (ANT, Maven, Gradle, …) project 
+9. Build file (ANT, Maven, Gradle, ...) project.
 
-9. When calculating all figures that contains a specific point (x, y), use threading for 
-parallelism.
+10. When calculating all figures that contain a specific point (x, y), use threading for parallelism.
 
-10. Dependency injection
+11. Dependency injection.
 
-11. Use any database to store the figures
+12. Use any database to store the figures.
