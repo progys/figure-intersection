@@ -19,7 +19,7 @@ This project was written as a solution to a Java developer job interview quiz. T
 ## Prerequisites
 
 - Maven 3
-- Java 22
+- Java 25
 - Internet connection (to download dependencies)
 
 ## Building and running
@@ -103,7 +103,7 @@ Shapes can also be loaded from a file with `-f <filename>` (see `shapesInput.txt
 
 ## Technologies and libraries
 
-- **Java 22** — language features and Java streams
+- **Java 25** — language features and Java streams
 - **Maven** — build tool and dependency management
 - **Java Streams** — parallel processing for point queries
 - **Guice** — dependency injection
