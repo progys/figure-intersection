@@ -95,7 +95,7 @@ Once running, type `help` to print the list of available commands with usage exa
 Every created shape is assigned a unique identifier and printed back in a standardized form, for example:
 
 ```
-=> shape 1: circle with centre at (1.7, -5.05) and radius 6.9
+=> Shape 1: circle with centre at (1.7, -5.05) and radius 6.9
 ```
 
 ### Other commands
@@ -112,18 +112,18 @@ Every created shape is assigned a unique identifier and printed back in a standa
 
 ```
 circle 1.7 -5.05 6.9
-=> shape 1: circle with centre at (1.7, -5.05) and radius 6.9
+=> Shape 1: circle with centre at (1.7, -5.05) and radius 6.9
 
 triangle 4.5 1 -2.5 -33 23 0.3
-=> shape 2: triangle with vertices at (4.5, 1) (-2.5, -33) (23, 0.3)
+=> Shape 2: triangle at v0=(4.5, 1.0), v1=(-2.5, -33.0), v2=(23.0, 0.3)
 
 donut 4.5 7.8 1.5 1.8
-=> shape 3: donut with centre at (4.5, 7.8) inner radius 1.5 and outer radius 1.8
+=> Shape 3: donut with centre at (4.5, 7.8) with inner radius 1.5 and outer radius 1.8
 
 5.1 6.2
 Shape list containing point (5.1, 6.2):
-shape 3: donut with centre at (4.5, 7.8) inner radius 1.5 and outer radius 1.8; Shape area: 3.11
-Found 1 shapes containing point (5.1, 6.2). Surface area combined:  3.11
+=> Shape 3: donut with centre at (4.5, 7.8) with inner radius 1.5 and outer radius 1.8 ; Shape area: 3.11
+Found 1 shapes containing point (5.1, 6.2). Surface area combined:  3.1102
 ```
 
 ### File input
@@ -178,7 +178,7 @@ It is a full programming exercise whose outcome should be code that can be compi
    For the circle, the numbers are the x and y coordinates of the centre followed by the radius. For the triangle it is the x and y coordinates of the three vertices (six numbers in total). For the donut it is the x and y of the centre followed by the two radii. In addition, every time such a line is entered, the application should give it a unique identifier and print it out in a standardized form, for example:
 
    ```
-   => shape 1: circle with centre at (1.7, -5.05) and radius 6.9
+   => Shape 1: circle with centre at (1.7, -5.05) and radius 6.9
    ```
 
 2. When the user enters a pair of numbers, the application should print out all the shapes that include that point in the (x, y) space, i.e. it should print out shape S if the given point is inside S. (A point is inside a donut shape if it is inside the outer circle but not inside the inner one.) It should also print out the surface area of each shape found, and the total area of all the shapes returned for a given point.
