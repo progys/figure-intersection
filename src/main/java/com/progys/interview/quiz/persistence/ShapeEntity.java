@@ -62,8 +62,6 @@ public class ShapeEntity {
                 outerRadius = donut.getOuterCircle().getRadius();
             }
             case null -> throw new IllegalArgumentException("Cannot store a null shape");
-            default -> throw new IllegalArgumentException(
-                    "Unsupported shape type: " + shape.getClass().getName());
         }
     }
 
