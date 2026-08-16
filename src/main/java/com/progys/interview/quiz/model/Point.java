@@ -1,5 +1,7 @@
 package com.progys.interview.quiz.model;
 
+import java.util.Objects;
+
 /**
  * Defines a point.
  * 
@@ -20,6 +22,18 @@ public class Point {
 
     public double getY() {
         return y;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Point other)) return false;
+        return Double.compare(x, other.x) == 0 && Double.compare(y, other.y) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
     }
 
     @Override
